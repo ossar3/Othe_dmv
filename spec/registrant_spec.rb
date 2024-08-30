@@ -1,4 +1,4 @@
-require 'pry';binding.pry
+# require 'pry';binding.pry
 require 'spec_helper'
 
 RSpec.describe Registrant do
@@ -11,9 +11,11 @@ RSpec.describe Registrant do
         it 'can do initialize' do
             expect(@registrant_1).to be_an_instance_of(Registrant)
             expect(@registrant_2).to be_an_instance_of(Registrant)
-            
+            expect(@registrant_1.name)
         end
     end
+
+
 
     describe '#earn_permit' do
         it 'can earn a permit' do

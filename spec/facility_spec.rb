@@ -27,7 +27,13 @@ RSpec.describe Facility do
 
   describe '#register vehicle' do
     it 'can register new vehicles' do
+      @facility.add_service('Vehicle Registration')
 
+      register_vehicle(@cruz)
+
+      expect(@facility.registered_vehicles).to eq [cruz]
+
+      expect(collected_fees).to eq 100
 
 
     end

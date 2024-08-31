@@ -22,7 +22,13 @@ class Facility
   @registered_vehicles << vehicle
   if vehicle.antique? == true
     vehicle.plate_type = :antique
-    #if vehicle antique collect 25 else collect 100?
+  end
+  if vehicle.antique == true 
+    collected_fees + 25
+  else 
+    collected_fees + 100
+  end
+  #if vehicle antique collect 25 else collect 100?
     #set date
   end
   end

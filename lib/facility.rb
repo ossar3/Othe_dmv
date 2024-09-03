@@ -1,5 +1,5 @@
 class Facility
-  attr_reader :name, :address, :phone, :services
+  attr_reader :name, :address, :phone, :services, :collected_fees, :registered_vehicles
 
   def initialize(facility)
    
@@ -18,23 +18,27 @@ class Facility
   
 
   def register_vehicle(vehicle)
-#check if it has the service? IF
-  @registered_vehicles << vehicle
-  if vehicle.antique? == true
-    vehicle.plate_type = :antique
-  end
-  if vehicle.antique == true 
-    collected_fees + 25
-  else 
-    collected_fees + 100
-  end
+  #check if it has the service? IF
+    if @services.include?("Vehicle Registration")
+
+   @registered_vehicles << vehicle
+    if vehicle.antique? == true
+      vehicle.plate_type = :antique
+    elsif vehicle.engine == "ev"
+     vehicle.plate_type = :ev
+    end
+    if vehicle.antique? == true 
+     (@collected_fees) + 25
+   else 
+     (@collected_fees) + 100
+   end
   #if vehicle antique collect 25 else collect 100?
     #set date
-  end
+   end
+    end
   end
 
-
-  def
+  def 
   end
 
 

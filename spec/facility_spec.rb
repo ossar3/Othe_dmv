@@ -27,20 +27,42 @@ RSpec.describe Facility do
 
   describe '#register vehicle' do
     it 'can register new vehicles' do
+      @cruz = Vehicle.new({vin: '123456789abcdefgh', year: 2012, make: 'Chevrolet', model: 'Cruz', engine: :ice} )
       @facility.add_service('Vehicle Registration')
 
-      register_vehicle(@cruz)
+      
+      @facility.register_vehicle(@cruz)
 
-      expect(@facility.registered_vehicles).to eq [cruz]
+      expect(@facility.registered_vehicles).to eq [@cruz]
 
-      expect(collected_fees).to eq 100
+      expect(@facility.collected_fees).to eq 100
 
 
     end
   end
 
-  describe '#collected fees' do
-    it 'can collect fees' do
+  describe '#register other vehicles' do
+    it 'can register new old vehicles' do
+      @camaro = Vehicle.new({vin: '1a2b3c4d5e6f', year: 1969, make: 'Chevrolet', model: 'Camaro', engine: :ice} )
+      @cruz = Vehicle.new({vin: '123456789abcdefgh', year: 2012, make: 'Chevrolet', model: 'Cruz', engine: :ice} )
+      @facility.add_service('Vehicle Registration')
+
+      
+      @facility.register_vehicle(@camaro)
+     
+      @facility.register_vehicle(@cruz)
+
+      expect(@facility.registered_vehicles).to eq [@cruz, @camaro]
+
+      expect(@facility.collected_fees).to eq 125
+
+
+    end
+  end
+  # describe '#collected fees' do
+  #   it 'can collect fees' do
+  # describe '#'
+
 
 
 

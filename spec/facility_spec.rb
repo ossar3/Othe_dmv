@@ -44,26 +44,72 @@ RSpec.describe Facility do
   describe '#register other vehicles' do
     it 'can register new old vehicles' do
       @camaro = Vehicle.new({vin: '1a2b3c4d5e6f', year: 1969, make: 'Chevrolet', model: 'Camaro', engine: :ice} )
-      @cruz = Vehicle.new({vin: '123456789abcdefgh', year: 2012, make: 'Chevrolet', model: 'Cruz', engine: :ice} )
+      @bolt = Vehicle.new({vin: '987654321abcdefgh', year: 2019, make: 'Chevrolet', model: 'Bolt', engine: :ev} )
       @facility.add_service('Vehicle Registration')
 
       
       @facility.register_vehicle(@camaro)
      
-      @facility.register_vehicle(@cruz)
+      @facility.register_vehicle(@bolt)
 
-      expect(@facility.registered_vehicles).to eq [@cruz, @camaro]
+      expect(@facility.registered_vehicles).to eq [@camaro, @bolt]
 
-      expect(@facility.collected_fees).to eq 125
+      expect(@facility.collected_fees).to eq 225
+
+
+      expect(@bolt.plate_type).to eq :ev
+      expect(@camaro.plate_type).to eq :antique
 
 
     end
   end
-  # describe '#collected fees' do
-  #   it 'can collect fees' do
-  # describe '#'
+    describe '#date registered' do
+    it 'can give registration date' do
+      @camaro = Vehicle.new({vin: '1a2b3c4d5e6f', year: 1969, make: 'Chevrolet', model: 'Camaro', engine: :ice} )
+
+      @facility.add_service('Vehicle Registration')
+      @facility.register_vehicle(@camaro)
+
+      expect(@camaro.registration_date).to eq (Date.today)
+    end
+  end
 
 
+    describe '#written test' do
+    it 'can administer written test' do 
+      @registrant_1 = Registrant.new('Bruce', 18, true )
+      @facility.add_service('Written test')
 
+      @facility.administer_written_test(@registrant_1)
 
+      expect(@registrant_1.license_data).to eq ({:written=>true, :license=>false, :renewed=>false})
+    end
+  end
+
+    describe '#road tested' do
+    it 'can administer road test' do
+      @registrant_1 = Registrant.new('Bruce', 18, true )
+      @registrant_2 = Registrant.new('Penny', 15 )
+
+      @facility.add_service("Road test")
+
+      @facility.administer_road_test(@registrant_1)
+      @facility.administer_road_test(@registrant_2)
+      expect(@registrant_1.license_data).to eq ({:written=>false, :license=>true, :renewed=>false})
+      expect(@registrant_2.license_data).to eq ({:written=>false, :license=>false, :renewed=>false})
+    end
+  end
+
+  describe '#renew license' do
+  it 'can renew license' do 
+    @registrant_1 = Registrant.new('Bruce', 18, true )
+    @facility.add_service('License renew')
+    @facility.add_service('Road test')
+
+    @facility.administer_road_test(@registrant_1)
+    @facility.renew_license(@registrant_1)
+
+    expect(@registrant_1.license_data).to eq ({:written=>false, :license=>true, :renewed=>true})
+  end
+end
 end
